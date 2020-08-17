@@ -4,7 +4,7 @@ import app from './app';
 
 const server = new http.Server(app);
 
-server.listen(3333, () => {
+server.listen(process.env.PORT, () => {
   console.log('Server runing');
 });
 

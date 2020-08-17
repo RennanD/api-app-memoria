@@ -1,6 +1,6 @@
 import { connect } from 'mongoose';
 
-const database = connect('mongodb://localhost:27017/app-memoria', {
+const database = connect(`${process.env.MONGO_URL}`, {
   useFindAndModify: true,
   useNewUrlParser: true,
   useUnifiedTopology: true,

@@ -26,8 +26,8 @@ class ListContactUserService {
         user: {
           ...contact.user,
           avatar: contact.user.avatar
-            ? `http://10.0.0.102:3333/files/${contact.user.avatar}`
-            : 'https://siac.ufrj.br/wp-content/uploads/2020/02/Profile_avatar_placeholder_large.png',
+            ? `${process.env.APP_URL}/${contact.user.avatar}`
+            : `${process.env.APP_AVATAR}`,
         },
       };
     });

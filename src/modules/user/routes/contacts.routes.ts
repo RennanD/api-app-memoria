@@ -1,18 +1,18 @@
 import { Router } from 'express';
-import multer from 'multer';
+// import multer from 'multer';
 
 import CreateContactService from '../services/CreateContactService';
 import ShowOnlyContactService from '../services/ShowOnlyContactService';
 import EditContactService from '../services/EditContactService';
 import DeleteContactService from '../services/DeleteContactService';
 import ListContactUserService from '../services/ListContactUserService';
-import UpdateContactAvatarService from '../services/UpdateContactAvatarService';
+// import UpdateContactAvatarService from '../services/UpdateContactAvatarService';
 
 import ensureAuthenticated from '../../../middlewares/ensureAuthenticate';
-import uploadConfig from '../../../config/upload';
+// import uploadConfig from '../../../config/upload';
 
 const contactsRouter = Router();
-const upload = multer(uploadConfig);
+// const upload = multer(uploadConfig);
 
 contactsRouter.use(ensureAuthenticated);
 
@@ -86,22 +86,22 @@ contactsRouter.delete('/:contact_id', async (request, response) => {
   return response.send();
 });
 
-contactsRouter.patch(
-  '/contact_id',
-  upload.single('avatar'),
-  async (request, response) => {
-    const contact_id = request.params.contact_id as string;
-    const { filename } = request.file;
+// contactsRouter.patch(
+//   '/contact_id',
+//   upload.single('avatar'),
+//   async (request, response) => {
+//     const contact_id = request.params.contact_id as string;
+//     const { filename } = request.file;
 
-    const updateAvatar = new UpdateContactAvatarService();
+//     const updateAvatar = new UpdateContactAvatarService();
 
-    await updateAvatar.execute({
-      contact_id,
-      filename,
-    });
+//     await updateAvatar.execute({
+//       contact_id,
+//       filename,
+//     });
 
-    return response.send();
-  },
-);
+//     return response.send();
+//   },
+// );
 
 export default contactsRouter;
