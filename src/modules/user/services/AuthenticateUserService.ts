@@ -49,10 +49,6 @@ class AuthenticateUserService {
       throw new AppError('Usuário não encontrado.', 401);
     }
 
-    if (!checkAccount.has_verified) {
-      throw new AppError('Se telefone ainda não foi verificado.', 401);
-    }
-
     const passwordMatch = await compare(password, userExists.password);
 
     if (!passwordMatch) {
