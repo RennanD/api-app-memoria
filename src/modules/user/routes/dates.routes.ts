@@ -3,6 +3,7 @@ import { Router } from 'express';
 import CreateImportantDateService from '../services/CreateImportantDateService';
 import ListUserDatesService from '../services/ListUserDatesService';
 import ListUserGenericDatesService from '../services/ListUserGenericDatesService';
+import ListGenericDatesService from '../services/ListGenericDatesService';
 import ShowOnlyDateService from '../services/ShowOnlyDateService';
 import EditImportantDateService from '../services/EditImportantDateService';
 import DeleteImportantDateService from '../services/DeleteImportantDateService';
@@ -28,6 +29,7 @@ datesRouter.get('/:date_id', async (request, response) => {
 datesRouter.get('/', async (request, response) => {
   const listDates = new ListUserDatesService();
   const listUserGenericDates = new ListUserGenericDatesService();
+  const listGenericDates = new ListGenericDatesService();
 
   const { id } = request.user;
   const month = request.query.month as string;
@@ -42,7 +44,11 @@ datesRouter.get('/', async (request, response) => {
     month: Number(month),
   });
 
-  const responseDates = [...dates, ...userGenericdates];
+  const genericDates = await listGenericDates.execute({
+    month: Number(month),
+  });
+
+  const responseDates = [...dates, ...userGenericdates, ...genericDates];
 
   return response.json(responseDates);
 });

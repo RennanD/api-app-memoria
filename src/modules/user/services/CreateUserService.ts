@@ -55,12 +55,6 @@ class CreateUserService {
       );
     }
 
-    if (!account.has_verified) {
-      throw new AppError(
-        'O número de telefone ainda não foi verificado, tente novamente.',
-      );
-    }
-
     if (account.user) {
       throw new AppError('Já existe uma conta com esse número de telefone.');
     }
