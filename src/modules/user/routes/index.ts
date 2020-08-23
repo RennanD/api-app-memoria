@@ -8,6 +8,7 @@ import contactsRouter from './contacts.routes';
 import datesRouter from './dates.routes';
 import messagesRouter from './messages.routes';
 import remindersRouter from './reminders.routes';
+import userGenericDateRouter from './user_generic_dates.routes';
 
 const routes = Router();
 
@@ -19,5 +20,6 @@ routes.use('/contacts', contactsRouter);
 routes.use('/dates', datesRouter);
 routes.use('/messages', messagesRouter);
 routes.use('/reminders', remindersRouter);
+routes.use('/user-generic-dates', userGenericDateRouter);
 
 export default routes;

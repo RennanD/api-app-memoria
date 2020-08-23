@@ -1,13 +1,13 @@
 import { getRepository } from 'typeorm';
 
-import ImportantDate from '../models/ImportantDate';
+import UserGenericDate from '../models/UserGenericDate';
 
 interface Request {
   user_id: string;
   month: number;
 }
 
-interface Events extends ImportantDate {
+interface Events extends UserGenericDate {
   monthDay: number;
   type: string;
 }
@@ -17,25 +17,24 @@ interface Response {
   events: Events[];
 }
 
-class ListUserDatesService {
+class ListUserGenericDatesService {
   public async execute({
     user_id,
     month,
   }: Request): Promise<Response[] | undefined> {
-    const dateRepository = getRepository(ImportantDate);
+    const userGenericDateRepository = getRepository(UserGenericDate);
 
-    const dates = await dateRepository.find({
+    const userGenericDates = await userGenericDateRepository.find({
       where: {
         user_id,
-        deleted_at: null,
       },
     });
 
-    const queryDates = dates
+    const queryDates = userGenericDates
       .filter(importantDate => importantDate.date.getMonth() + 1 === month)
       .map(queryDate => ({
         monthDay: queryDate.date.getDate(),
-        type: 'important-date',
+        type: 'generic-date',
         ...queryDate,
       }));
 
@@ -65,4 +64,4 @@ class ListUserDatesService {
   }
 }
 
-export default ListUserDatesService;
+export default ListUserGenericDatesService;
