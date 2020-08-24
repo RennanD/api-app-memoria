@@ -22,12 +22,6 @@ class UserPhone {
   @Column()
   phone_number: string;
 
-  @Column()
-  verification_code: string;
-
-  @Column()
-  has_verified: boolean;
-
   @CreateDateColumn()
   created_at: Date;
 

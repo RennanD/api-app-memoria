@@ -31,16 +31,16 @@ class User {
   password: string;
 
   @Column()
-  cpf: string;
-
-  @Column()
   gender: string;
 
   @Column()
   zipcode: string;
 
   @Column()
-  address: string;
+  city: string;
+
+  @Column()
+  region: string;
 
   @Column()
   role: string;

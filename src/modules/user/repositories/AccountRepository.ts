@@ -4,7 +4,7 @@
 import { EntityRepository, Repository } from 'typeorm';
 
 import Account from '../models/Account';
-import AppError from '../../../errors/AppError';
+// import AppError from '../../../errors/AppError';
 
 interface Request {
   verification_code: string;
@@ -42,18 +42,17 @@ class AccountRepository extends Repository<Account> {
     //     content: 'Código de verificação enviado com sucesso.',
     //   };
     // }
-    // const newUserNumber = this.create({
-    //   phone_number,
-    //   verification_code,
-    // });
-    // await this.save(newUserNumber);
-    // return {
-    //   content: 'Código de verificação enviado com sucesso.',
-    // };
 
     const checkUserAlreadyRegister = await this.findOne({
       where: { phone_number },
     });
+
+    if (!checkUserAlreadyRegister) {
+      const newUserNumber = this.create({
+        phone_number,
+      });
+      await this.save(newUserNumber);
+    }
 
     if (checkUserAlreadyRegister) {
       if (checkUserAlreadyRegister.user) {
@@ -63,25 +62,25 @@ class AccountRepository extends Repository<Account> {
     return false;
   }
 
-  public async verificateCodeNumber({
-    verification_code,
-    phone_number,
-  }: Request): Promise<void> {
-    const findAccount = await this.findOne({
-      where: { phone_number },
-    });
+  // public async verificateCodeNumber({
+  //   verification_code,
+  //   phone_number,
+  // }: Request): Promise<void> {
+  //   const findAccount = await this.findOne({
+  //     where: { phone_number },
+  //   });
 
-    if (!findAccount) {
-      throw new AppError('Esse telefone ainda não foi cadastrado.', 401);
-    }
+  //   if (!findAccount) {
+  //     throw new AppError('Esse telefone ainda não foi cadastrado.', 401);
+  //   }
 
-    if (findAccount.verification_code !== verification_code) {
-      throw new AppError('Código de verificação inválido!', 401);
-    } else {
-      findAccount.has_verified = true;
-      await this.save(findAccount);
-    }
-  }
+  //   if (findAccount.verification_code !== verification_code) {
+  //     throw new AppError('Código de verificação inválido!', 401);
+  //   } else {
+  //     findAccount.has_verified = true;
+  //     await this.save(findAccount);
+  //   }
+  // }
 }
 
 export default AccountRepository;

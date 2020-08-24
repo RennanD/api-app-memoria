@@ -5,6 +5,7 @@ import User from '../models/User';
 import Account from '../models/Account';
 
 import AppError from '../../../errors/AppError';
+import getLocation from '../../../utils/getLocation';
 
 interface Request {
   name: string;
@@ -24,10 +25,8 @@ class CreateUserService {
     birthday,
     phone,
     email,
-    cpf,
     gender,
     zipcode,
-    address,
     password,
   }: Request): Promise<Account> {
     const userRepository = getRepository(User);
@@ -35,8 +34,10 @@ class CreateUserService {
 
     const hash_password = await hash(password, 8);
 
+    const location = await getLocation(zipcode);
+
     const userExists = await userRepository.findOne({
-      where: { email } || { cpf },
+      where: { email },
     });
 
     if (userExists) {
@@ -62,13 +63,12 @@ class CreateUserService {
     const user = userRepository.create({
       name,
       birthday,
-      cpf,
       email,
       gender,
-      address,
       zipcode,
       password: hash_password,
       role: 'user',
+      ...location,
     });
 
     await userRepository.save(user);
