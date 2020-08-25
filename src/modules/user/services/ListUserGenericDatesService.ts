@@ -34,7 +34,7 @@ class ListUserGenericDatesService {
       .filter(importantDate => importantDate.date.getMonth() + 1 === month)
       .map(queryDate => ({
         monthDay: queryDate.date.getDate(),
-        type: 'generic-date',
+        type: 'user-generic-date',
         ...queryDate,
       }));
 

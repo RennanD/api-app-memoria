@@ -15,6 +15,12 @@ class UserGenericDate {
   user_id: string;
 
   @Column()
+  friend_name: string;
+
+  @Column()
+  relationship: string;
+
+  @Column()
   date: Date;
 
   @Column()

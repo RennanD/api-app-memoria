@@ -22,7 +22,7 @@ userGenericDateRouter.get('/:date_id', async (request, response) => {
 });
 
 userGenericDateRouter.post('/', async (request, response) => {
-  const { date, description } = request.body;
+  const { date, description, relationship, friend_name } = request.body;
 
   const { id } = request.user;
 
@@ -32,6 +32,8 @@ userGenericDateRouter.post('/', async (request, response) => {
     user_id: id,
     date,
     description,
+    friend_name,
+    relationship,
   });
 
   return response.json(userGenericDate);
