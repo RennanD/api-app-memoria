@@ -2,7 +2,7 @@ node_modules
 *-error.log
 .env
 dist/
-ormconfi.json
+ormconfig.json
 tmp/*
 !tmp/.gitkeep
 !tmp/messages
