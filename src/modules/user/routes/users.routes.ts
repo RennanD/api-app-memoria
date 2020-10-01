@@ -23,7 +23,7 @@ usersRouter.get('/:user_id', async (request, response) => {
   });
 
   return response.json(user);
-})
+});
 
 usersRouter.post('/', async (request, response) => {
   const { body } = request;
@@ -31,7 +31,7 @@ usersRouter.post('/', async (request, response) => {
 
   const account = await createUser.execute(body);
 
-  delete account.user.password;
+  // delete account.user.password;
 
   return response.json(account);
 });
@@ -44,7 +44,7 @@ usersRouter.put('/', ensureAuthenticated, async (request, response) => {
 
   const user = await updatedUser.execute({ id, ...data });
 
-  delete user.password;
+  // delete user.password;
 
   return response.json(user);
 });
