@@ -18,11 +18,15 @@ class ShowOnlyUserService {
   public async execute({ user_id }: Request): Promise<Response> {
     const userRepository = getRepository(User);
 
+    console.log(user_id);
+
     const user = await userRepository.findOne({
       where: {
         id: user_id,
       },
     });
+
+    console.log(user);
 
     if (!user) {
       throw new AppError('Resgistro não encontrado.');
