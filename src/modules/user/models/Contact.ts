@@ -37,9 +37,6 @@ class Contact {
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @Column()
-  relationship: string;
-
   @CreateDateColumn()
   created_at: Date;
 

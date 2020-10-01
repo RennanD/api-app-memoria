@@ -20,6 +20,9 @@ class UserPhone {
   user: User;
 
   @Column()
+  user_id: string;
+
+  @Column()
   phone_number: string;
 
   @CreateDateColumn()

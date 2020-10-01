@@ -4,6 +4,7 @@ import CreateInviteService from '../services/CreateInviteService';
 
 import ensureAuthenticated from '../../../middlewares/ensureAuthenticate';
 import ShowInviteService from '../services/ShowInviteService';
+import AcceptInviteService from '../services/AcceptInviteService';
 
 const invitesRouter = Router();
 
@@ -16,6 +17,21 @@ invitesRouter.get('/', async (request, response) => {
 
   const invite = await showInvite.execute({
     inviteId,
+  });
+
+  return response.json(invite);
+});
+
+invitesRouter.post('/accept', async (request, response) => {
+  const acceptInvite = new AcceptInviteService();
+
+  const { id } = request.user;
+
+  const { owner_id } = request.body;
+
+  const invite = await acceptInvite.execute({
+    guest_id: id,
+    owner_id,
   });
 
   return response.json(invite);
