@@ -12,7 +12,7 @@ interface Response {
   id: string;
   name: string;
   avatar?: string;
-  relationship: string;
+
 }
 
 class ShowOnlyContactService {
@@ -29,14 +29,14 @@ class ShowOnlyContactService {
       throw new AppError('Resgistro não encontrado.');
     }
 
-    delete contact.user.password;
+    // delete contact.user.password;
 
     return {
       ...contact.user,
       avatar: contact.user.avatar
         ? `${process.env.APP_URL}/${contact.user.avatar}`
         : `${process.env.APP_AVATAR}`,
-      relationship: contact.relationship,
+
     };
   }
 }

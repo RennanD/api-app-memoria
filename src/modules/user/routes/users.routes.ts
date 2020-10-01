@@ -7,10 +7,23 @@ import UpdateUserAvatarService from '../services/UpdateUserAvatarService';
 
 import ensureAuthenticated from '../../../middlewares/ensureAuthenticate';
 import uploadConfig from '../../../config/upload';
+import ShowOnlyUserService from '../services/ShowOnlyUserService';
 
 const usersRouter = Router();
 
 const upload = multer(uploadConfig);
+
+usersRouter.get('/:user_id', async (request, response) => {
+  const showUser = new ShowOnlyUserService();
+
+  const user_id = request.params.contact_id as string;
+
+  const user = await showUser.execute({
+    user_id,
+  });
+
+  return response.json(user);
+})
 
 usersRouter.post('/', async (request, response) => {
   const { body } = request;

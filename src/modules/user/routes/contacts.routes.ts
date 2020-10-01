@@ -45,12 +45,11 @@ contactsRouter.post('/', async (request, response) => {
 
   const owner_id = request.user.id;
 
-  const { phone_number, relationship } = request.body;
+  const { phone_number } = request.body;
 
   const contact = await createContact.execute({
     owner_id,
     phone_number,
-    relationship,
   });
 
   return response.json(contact);

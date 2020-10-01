@@ -8,15 +8,10 @@ import AppError from '../../../errors/AppError';
 interface Request {
   owner_id: string;
   phone_number: string;
-  relationship: string;
 }
 
 class CreateContactService {
-  public async execute({
-    owner_id,
-    phone_number,
-    relationship,
-  }: Request): Promise<Contact> {
+  public async execute({ owner_id, phone_number }: Request): Promise<Contact> {
     const accountRespository = getRepository(Account);
     const contactRespository = getRepository(Contact);
 
@@ -33,7 +28,6 @@ class CreateContactService {
     const contact = contactRespository.create({
       user_id: checkAccount.user.id,
       owner_id,
-      relationship,
     });
 
     await contactRespository.save(contact);
