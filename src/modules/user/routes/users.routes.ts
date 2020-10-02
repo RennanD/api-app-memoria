@@ -49,7 +49,7 @@ usersRouter.put('/', ensureAuthenticated, async (request, response) => {
   return response.json(user);
 });
 
-usersRouter.patch(
+usersRouter.put(
   '/',
   ensureAuthenticated,
   upload.single('avatar'),
