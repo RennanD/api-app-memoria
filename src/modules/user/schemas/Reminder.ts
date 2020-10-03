@@ -8,6 +8,7 @@ interface Reminder extends Document {
   reminderDate: Date;
   parsed_date: string;
   notification_message: string;
+  active: boolean;
 }
 
 const ReminderSchema = new Schema(
@@ -38,6 +39,10 @@ const ReminderSchema = new Schema(
     },
     notification_message: {
       type: String,
+      required: true,
+    },
+    active: {
+      type: Boolean,
       required: true,
     },
   },

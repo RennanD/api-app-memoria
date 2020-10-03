@@ -30,6 +30,7 @@ class CreateRemindersService {
       reminderDate,
       parsed_date,
       notification_message,
+      active: true,
     });
 
     return reminder;

@@ -4,6 +4,7 @@ import CreateRemindersService from '../services/CreateRemindersService';
 import ListRemindersService from '../services/ListRemindersService';
 
 import ensureAuthenticated from '../../../middlewares/ensureAuthenticate';
+import Reminder from '../schemas/Reminder';
 
 const remindersRouter = Router();
 
@@ -35,6 +36,24 @@ remindersRouter.post('/', async (request, response) => {
   });
 
   return response.json(reminder);
+});
+
+remindersRouter.patch('/:reminder_id', async (request, response) => {
+  const { reminder_id } = request.params;
+
+  const { active } = request.body;
+
+  const reminder = await Reminder.findById(reminder_id);
+
+  if (!reminder) {
+    return response.status(400).json({ error: 'Erro' });
+  }
+
+  reminder.active = active;
+
+  await reminder?.save();
+
+  return response.send();
 });
 
 export default remindersRouter;
