@@ -35,6 +35,16 @@ class AcceptInviteService {
       );
     }
 
+    const isMyContact = await contactRespository.findOne({
+      where: {
+        id: owner_id,
+      },
+    });
+
+    if (isMyContact) {
+      throw new AppError('Você já possui este contato na sua lista');
+    }
+
     const owner = contactRespository.create({
       user_id: guestAccount.user.id,
       owner_id,
