@@ -20,7 +20,7 @@ class AcceptInviteService {
     });
 
     const guestAccount = await accountRespository.findOne({
-      where: { user_id: owner_id },
+      where: { user_id: guest_id },
     });
 
     if (!ownerAccount) {
@@ -42,7 +42,7 @@ class AcceptInviteService {
 
     const guest = contactRespository.create({
       user_id: ownerAccount.user.id,
-      owner_id,
+      owner_id: guestAccount.user.id,
     });
 
     await contactRespository.save(owner);

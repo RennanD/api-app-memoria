@@ -41,12 +41,12 @@ class AuthenticateUserService {
 
     const checkAccount = await accountRepository.findOne({
       where: {
-        user: userExists.id,
+        user_id: userExists.id,
       },
     });
 
     if (!checkAccount) {
-      throw new AppError('Usuário não encontrado.', 401);
+      throw new AppError('Conta não encontrado.', 401);
     }
 
     const passwordMatch = await compare(password, userExists.password);

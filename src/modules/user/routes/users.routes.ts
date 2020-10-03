@@ -16,7 +16,7 @@ const upload = multer(uploadConfig);
 usersRouter.get('/:user_id', async (request, response) => {
   const showUser = new ShowOnlyUserService();
 
-  const user_id = request.params.contact_id as string;
+  const user_id = request.params.user_id as string;
 
   const user = await showUser.execute({
     user_id,
