@@ -10,6 +10,7 @@ import messagesRouter from './messages.routes';
 import remindersRouter from './reminders.routes';
 import userGenericDateRouter from './user_generic_dates.routes';
 import invitesRouter from './invite.routes';
+import notificationsRouter from './notifications.routes';
 
 const routes = Router();
 
@@ -23,5 +24,6 @@ routes.use('/messages', messagesRouter);
 routes.use('/reminders', remindersRouter);
 routes.use('/user-generic-dates', userGenericDateRouter);
 routes.use('/invites', invitesRouter);
+routes.use('/notifications', notificationsRouter);
 
 export default routes;
