@@ -32,7 +32,8 @@ app.use(
   express.static(resolve(__dirname, '..', 'tmp', 'messages')),
 );
 
-cron.schedule('0 6 * * *', async () => {
+cron.schedule('10 14 * * *', async () => {
+  console.log('oi');
   await getReminders();
 });
 

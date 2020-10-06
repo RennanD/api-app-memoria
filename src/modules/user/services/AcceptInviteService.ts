@@ -37,7 +37,7 @@ class AcceptInviteService {
 
     const isMyContact = await contactRespository.findOne({
       where: {
-        owner_id,
+        user_id: owner_id,
       },
     });
 
