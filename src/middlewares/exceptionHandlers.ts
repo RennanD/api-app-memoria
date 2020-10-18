@@ -9,7 +9,7 @@ export default function globalExceptionHandler(
   _: NextFunction,
 ): Response {
   if (err instanceof AppError) {
-    response.status(err.statusCode).json({
+    return response.status(err.statusCode).json({
       status: 'error',
       message: err.message,
     });

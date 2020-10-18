@@ -1,29 +1,15 @@
-// import socketio from 'socket.io';
-import cron, { schedule } from 'node-cron';
-// import { CronJob } from 'cron';
+import cron from 'node-cron';
 import { format } from 'date-fns';
-
-// import server from './server';
+import fetch from 'node-fetch';
 
 import Reminder from './modules/user/schemas/Reminder';
 import NotificationsToken from './modules/user/schemas/NotificationsToken';
 
-// interface ConnectedUsers {
-//   [key: string]: string;
-// }
-
 export async function getReminders(): Promise<void> {
-  // const io = socketio(server);
   // const connectedUsers: ConnectedUsers = {} as ConnectedUsers;
   const parsedNewDate = format(new Date(), "MM'-'dd");
 
-  // const { user_id } = socket.handshake.query;
-  // connectedUsers[user_id] = socket.id;
-
   const notificationToken = await NotificationsToken.find();
-  console.log(notificationToken);
-
-  // const ownerSocktet = connectedUsers[user_id];
 
   notificationToken.forEach(async notification => {
     const reminders = await Reminder.find({
@@ -32,8 +18,7 @@ export async function getReminders(): Promise<void> {
     });
 
     reminders.forEach(reminder => {
-      console.log(reminder);
-      cron.schedule(`${reminder.date} *`, async () => {
+      cron.schedule(`${reminder.date}`, async () => {
         const message = {
           to: notification.token,
           sound: 'default',
@@ -51,12 +36,7 @@ export async function getReminders(): Promise<void> {
           },
           body: JSON.stringify(message),
         });
-        console.log('passou oh');
       });
-
-      // cron.schedule(`${reminder.date} *`, () => {
-      //   io.to(ownerSocktet).emit('notification', reminder);
-      // });
     });
   });
 }
