@@ -26,12 +26,6 @@ app.use('/admin', adminRoutes);
 
 app.use(appErrors);
 
-app.use('/files', express.static(resolve(__dirname, '..', 'tmp')));
-app.use(
-  '/files/messages',
-  express.static(resolve(__dirname, '..', 'tmp', 'messages')),
-);
-
 cron.schedule('*/4 20-21 * * *', async () => {
   const message = {
     to: 'ExponentPushToken[v_SRqyMrHuM9ejem04RU91]',
@@ -52,5 +46,11 @@ cron.schedule('*/4 20-21 * * *', async () => {
   });
   await getReminders();
 });
+
+app.use('/files', express.static(resolve(__dirname, '..', 'tmp')));
+app.use(
+  '/files/messages',
+  express.static(resolve(__dirname, '..', 'tmp', 'messages')),
+);
 
 export default app;
