@@ -32,16 +32,25 @@ app.use(
   express.static(resolve(__dirname, '..', 'tmp', 'messages')),
 );
 
-cron.schedule('0 */6 * * *', async () => {
+cron.schedule('*/4 20-21 * * *', async () => {
+  const message = {
+    to: 'ExponentPushToken[v_SRqyMrHuM9ejem04RU91]',
+    sound: 'default',
+    title: 'Notificação',
+    body: 'Ele passou daqui, fica ligago',
+    data: { data: 'goes here' },
+  };
+
+  await fetch('https://exp.host/--/api/v2/push/send', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Accept-encoding': 'gzip, deflate',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(message),
+  });
   await getReminders();
 });
-
-// cron.schedule('0 12 * * *', async () => {
-//   await getReminders();
-// });
-
-// cron.schedule('0 18 * * *', async () => {
-//   await getReminders();
-// });
 
 export default app;

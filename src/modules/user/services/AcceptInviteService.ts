@@ -15,10 +15,15 @@ class AcceptInviteService {
     const accountRespository = getRepository(Account);
     const contactRespository = getRepository(Contact);
 
+    // Rennan - owner
+    // Ronney - guest
+
+    // Rennan
     const ownerAccount = await accountRespository.findOne({
       where: { user_id: owner_id },
     });
 
+    // Ronney
     const guestAccount = await accountRespository.findOne({
       where: { user_id: guest_id },
     });
@@ -38,6 +43,7 @@ class AcceptInviteService {
     const isMyContact = await contactRespository.findOne({
       where: {
         user_id: owner_id,
+        owner_id: guestAccount.user.id,
       },
     });
 
@@ -51,7 +57,7 @@ class AcceptInviteService {
     });
 
     const guest = contactRespository.create({
-      user_id: ownerAccount.user.id,
+      user_id: owner_id,
       owner_id: guestAccount.user.id,
     });
 
