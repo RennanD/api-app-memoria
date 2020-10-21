@@ -32,16 +32,16 @@ app.use(
   express.static(resolve(__dirname, '..', 'tmp', 'messages')),
 );
 
-cron.schedule('0 6 * * *', async () => {
+cron.schedule('0 */6 * * *', async () => {
   await getReminders();
 });
 
-cron.schedule('0 12 * * *', async () => {
-  await getReminders();
-});
+// cron.schedule('0 12 * * *', async () => {
+//   await getReminders();
+// });
 
-cron.schedule('0 18 * * *', async () => {
-  await getReminders();
-});
+// cron.schedule('0 18 * * *', async () => {
+//   await getReminders();
+// });
 
 export default app;
