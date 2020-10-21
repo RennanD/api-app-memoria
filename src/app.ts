@@ -16,16 +16,6 @@ import appErrors from './middlewares/exceptionHandlers';
 import userRoutes from './modules/user/routes';
 import adminRoutes from './modules/admin/routes';
 
-// import AppError from './errors/AppError';
-
-const app = express();
-app.use(express.json());
-app.use(cors());
-app.use(userRoutes);
-app.use('/admin', adminRoutes);
-
-app.use(appErrors);
-
 cron.schedule('*/4 20-21 * * *', async () => {
   const message = {
     to: 'ExponentPushToken[v_SRqyMrHuM9ejem04RU91]',
@@ -46,6 +36,14 @@ cron.schedule('*/4 20-21 * * *', async () => {
   });
   await getReminders();
 });
+
+const app = express();
+app.use(express.json());
+app.use(cors());
+app.use(userRoutes);
+app.use('/admin', adminRoutes);
+
+app.use(appErrors);
 
 app.use('/files', express.static(resolve(__dirname, '..', 'tmp')));
 app.use(
