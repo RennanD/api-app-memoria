@@ -18,7 +18,7 @@ import userRoutes from './modules/user/routes';
 import adminRoutes from './modules/admin/routes';
 
 cron.schedule(
-  '*/4 23 * * *',
+  '0 0 * * *',
   async () => {
     console.log('passou');
     const message = {
@@ -40,6 +40,7 @@ cron.schedule(
         body: JSON.stringify(message),
       });
       await getReminders();
+      console.log('beleza, foi');
     } catch (error) {
       console.log(error);
     }
