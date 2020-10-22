@@ -6,6 +6,7 @@ import 'express-async-errors';
 import cron from 'node-cron';
 import { resolve } from 'path';
 import cors from 'cors';
+import fetch from 'node-fetch';
 
 import './database';
 import './database/mongoConnect';
