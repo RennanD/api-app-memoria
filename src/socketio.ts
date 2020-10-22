@@ -19,8 +19,9 @@ export async function getReminders(): Promise<void> {
       parsed_date: parsedNewDate,
     });
 
+    console.log(reminders);
+
     reminders.forEach(reminder => {
-      console.log(reminder);
       cron.schedule(
         `${reminder.date}`,
         async () => {
