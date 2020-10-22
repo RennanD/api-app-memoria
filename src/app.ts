@@ -16,10 +16,17 @@ import appErrors from './middlewares/exceptionHandlers';
 import userRoutes from './modules/user/routes';
 import adminRoutes from './modules/admin/routes';
 
-cron.schedule('*/4 20-21 * * *', async () => {
-  console.log('passou');
-  await getReminders();
-});
+cron.schedule(
+  '*/4 20-21 * * *',
+  async () => {
+    console.log('passou');
+    await getReminders();
+  },
+  {
+    scheduled: true,
+    timezone: 'America/Sao_Paulo',
+  },
+);
 
 const app = express();
 app.use(express.json());
