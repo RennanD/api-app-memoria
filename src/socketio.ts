@@ -1,5 +1,5 @@
 import cron from 'node-cron';
-import { format } from 'date-fns';
+// import { format } from 'date-fns';
 import fetch from 'node-fetch';
 
 import Reminder from './modules/user/schemas/Reminder';
@@ -7,7 +7,7 @@ import NotificationsToken from './modules/user/schemas/NotificationsToken';
 
 export async function getReminders(): Promise<void> {
   // const connectedUsers: ConnectedUsers = {} as ConnectedUsers;
-  const parsedNewDate = format(new Date(), "MM'-'dd");
+  // const parsedNewDate = format(new Date(), "MM'-'dd");
 
   const notificationToken = await NotificationsToken.find();
 
@@ -16,7 +16,7 @@ export async function getReminders(): Promise<void> {
   notificationToken.forEach(async notification => {
     reminders = await Reminder.find({
       user_id: notification.user_id,
-      parsed_date: parsedNewDate,
+      // parsed_date: parsedNewDate,
     });
 
     reminders.forEach(reminder => {

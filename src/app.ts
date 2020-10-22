@@ -18,7 +18,7 @@ import userRoutes from './modules/user/routes';
 import adminRoutes from './modules/admin/routes';
 
 cron.schedule(
-  '0 0 * * *',
+  '0 */6 * * *',
   async () => {
     console.log('passou');
     const message = {
