@@ -11,6 +11,8 @@ export async function getReminders(): Promise<void> {
 
   const notificationToken = await NotificationsToken.find();
 
+  console.log(notificationToken);
+
   notificationToken.forEach(async notification => {
     const reminders = await Reminder.find({
       user_id: notification.user_id,
