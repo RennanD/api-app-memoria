@@ -17,7 +17,7 @@ import userRoutes from './modules/user/routes';
 import adminRoutes from './modules/admin/routes';
 
 cron.schedule(
-  '*/4 22-23 * * *',
+  '*/4 23 * * *',
   async () => {
     console.log('passou');
     await getReminders();
