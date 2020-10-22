@@ -18,6 +18,7 @@ export async function getReminders(): Promise<void> {
     });
 
     reminders.forEach(reminder => {
+      console.log(reminder);
       cron.schedule(
         `${reminder.date}`,
         async () => {
@@ -38,6 +39,8 @@ export async function getReminders(): Promise<void> {
             },
             body: JSON.stringify(message),
           });
+
+          console.log('opaaaa');
         },
         {
           scheduled: reminder.active,
