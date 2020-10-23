@@ -6,7 +6,6 @@ import 'express-async-errors';
 import cron from 'node-cron';
 import { resolve } from 'path';
 import cors from 'cors';
-import fetch from 'node-fetch';
 
 import './database';
 import './database/mongoConnect';
@@ -18,32 +17,10 @@ import userRoutes from './modules/user/routes';
 import adminRoutes from './modules/admin/routes';
 
 cron.schedule(
-  '0 */6 * * *',
+  '0 */3 * * *',
   async () => {
-    console.log('passou');
-    const message = {
-      to: 'ExponentPushToken[v_SRqyMrHuM9ejem04RU91]',
-      sound: 'default',
-      title: 'Data importante chegando, fique de olho :)',
-      body: 'Pelo menos daqui enviou po',
-      data: { data: 'goes here' },
-    };
-
-    try {
-      await fetch('https://exp.host/--/api/v2/push/send', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Accept-encoding': 'gzip, deflate',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(message),
-      });
-      await getReminders();
-      console.log('beleza, foi');
-    } catch (error) {
-      console.log(error);
-    }
+    await getReminders();
+    console.log('beleza, foi');
   },
   {
     scheduled: true,

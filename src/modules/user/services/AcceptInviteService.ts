@@ -5,6 +5,9 @@ import Account from '../models/Account';
 
 import AppError from '../../../errors/AppError';
 
+import CreateImportantDateService from './CreateImportantDateService';
+import CreateNotificationService from './CreateNotificationService';
+
 interface Request {
   owner_id: string;
   guest_id: string;
@@ -15,15 +18,13 @@ class AcceptInviteService {
     const accountRespository = getRepository(Account);
     const contactRespository = getRepository(Contact);
 
-    // Rennan - owner
-    // Ronney - guest
+    const createImportantDate = new CreateImportantDateService();
+    const createNotification = new CreateNotificationService();
 
-    // Rennan
     const ownerAccount = await accountRespository.findOne({
       where: { user_id: owner_id },
     });
 
-    // Ronney
     const guestAccount = await accountRespository.findOne({
       where: { user_id: guest_id },
     });
@@ -63,6 +64,26 @@ class AcceptInviteService {
 
     await contactRespository.save(owner);
     await contactRespository.save(guest);
+
+    const guestDate = await createImportantDate.execute({
+      user_id: ownerAccount.user.id,
+      contact_id: guestAccount.user.id,
+      date: guestAccount.user.birthday,
+      description: `Aniversário de ${guestAccount.user.name}`,
+    });
+
+    await createImportantDate.execute({
+      user_id: guestAccount.user.id,
+      contact_id: ownerAccount.user.id,
+      date: ownerAccount.user.birthday,
+      description: `Aniversário de ${ownerAccount.user.name}`,
+    });
+
+    await createNotification.execute({
+      description: `${guestAccount.user.name}`,
+      important_date_id: guestDate.id,
+      user_id: ownerAccount.user.id,
+    });
 
     return owner;
   }
