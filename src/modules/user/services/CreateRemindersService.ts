@@ -2,7 +2,7 @@ import { Document } from 'mongoose';
 
 import Reminder from '../schemas/Reminder';
 
-interface Request {
+interface Reminder {
   user_id: string;
   title: string;
   reminderDate: Date;
@@ -12,26 +12,24 @@ interface Request {
   notification_message: string;
 }
 
+interface Request {
+  reminders: Reminder[];
+}
+
 class CreateRemindersService {
-  public async execute({
-    user_id,
-    date,
-    important_date_id,
-    title,
-    reminderDate,
-    parsed_date,
-    notification_message,
-  }: Request): Promise<Document> {
-    const reminder = await Reminder.create({
-      user_id,
-      important_date_id,
-      title,
-      date,
-      reminderDate,
-      parsed_date,
-      notification_message,
-      active: true,
-    });
+  public async execute({ reminders }: Request): Promise<Document[]> {
+    const reminder = await Reminder.create(
+      reminders.map(reminderObjetc => ({
+        user_id: reminderObjetc.user_id,
+        important_date_id: reminderObjetc.important_date_id,
+        title: reminderObjetc.title,
+        date: reminderObjetc.date,
+        reminderDate: reminderObjetc.reminderDate,
+        parsed_date: reminderObjetc.parsed_date,
+        notification_message: reminderObjetc.notification_message,
+        active: true,
+      })),
+    );
 
     return reminder;
   }
