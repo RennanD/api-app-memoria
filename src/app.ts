@@ -17,7 +17,7 @@ import userRoutes from './modules/user/routes';
 import adminRoutes from './modules/admin/routes';
 
 cron.schedule(
-  '0 */3 * * *',
+  '55 */2 * * *',
   async () => {
     await getReminders();
     console.log('beleza, foi');
