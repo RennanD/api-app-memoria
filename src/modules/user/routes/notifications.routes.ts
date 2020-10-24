@@ -2,6 +2,7 @@ import { Router } from 'express';
 
 import ensureAuthenticated from '../../../middlewares/ensureAuthenticate';
 import NotificationsToken from '../schemas/NotificationsToken';
+import Notification from '../schemas/Notification';
 
 import CreateNotificationTokenService from '../services/CreateNotificationTokenService';
 import ListNotificationsService from '../services/ListNotificationsService';
@@ -21,6 +22,27 @@ notificationsRouter.get('/', async (request, response) => {
 
   return response.json(notifications);
 });
+
+notificationsRouter.patch(
+  '/notifications/:notification_id',
+  async (request, response) => {
+    const { notification_id } = request.params;
+
+    const notification = await Notification.findById(notification_id);
+
+    if (!notification) {
+      return response
+        .status(400)
+        .json({ message: 'Notificação não encontrada', statusCode: '400' });
+    }
+
+    notification.read = true;
+
+    await notification.save();
+
+    return response.json(notification);
+  },
+);
 
 // Token
 
