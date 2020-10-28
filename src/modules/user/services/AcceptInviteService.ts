@@ -93,6 +93,8 @@ class AcceptInviteService {
     const getMonthOwner = ownerDate.date.getMonth() + 1;
     const getDayOwner = ownerDate.date.getDate();
 
+    console.log(ownerDate, guestDate);
+
     const reminders = [
       {
         user_id: ownerAccount.user.id,

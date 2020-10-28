@@ -40,6 +40,8 @@ notificationsRouter.patch(
 
     await notification.save();
 
+    console.log(notification);
+
     return response.json(notification);
   },
 );
