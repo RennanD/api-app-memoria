@@ -25,6 +25,8 @@ class ShowOnlyDateService {
   public async execute({ date_id }: Request): Promise<Response> {
     const dateRepository = getRepository(ImportantDate);
 
+    console.log(date_id);
+
     const date = await dateRepository.findOne({
       where: {
         id: date_id,
