@@ -68,6 +68,8 @@ class AcceptInviteService {
     await contactRespository.save(owner);
     await contactRespository.save(guest);
 
+    console.log(owner, guest);
+
     const ownerDate = dateRepository.create({
       user_id: ownerAccount.user.id,
       contact_id: guestAccount.user.id,
@@ -93,7 +95,7 @@ class AcceptInviteService {
     const getMonthOwner = ownerDate.date.getMonth() + 1;
     const getDayOwner = ownerDate.date.getDate();
 
-    console.log(ownerDate, guestDate);
+    // console.log(ownerDate, guestDate);
 
     const reminders = [
       {

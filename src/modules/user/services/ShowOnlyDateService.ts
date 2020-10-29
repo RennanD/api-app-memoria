@@ -37,8 +37,6 @@ class ShowOnlyDateService {
       throw new AppError('Resgistro não encontrado.');
     }
 
-    console.log(date);
-
     return {
       id: date.id,
       date: date.date,
