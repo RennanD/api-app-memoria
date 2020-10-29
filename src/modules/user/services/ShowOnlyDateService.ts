@@ -25,7 +25,7 @@ class ShowOnlyDateService {
   public async execute({ date_id }: Request): Promise<Response> {
     const dateRepository = getRepository(ImportantDate);
 
-    console.log(date_id);
+    // console.log(date_id);
 
     const date = await dateRepository.findOne({
       where: {
@@ -36,6 +36,8 @@ class ShowOnlyDateService {
     if (!date) {
       throw new AppError('Resgistro não encontrado.');
     }
+
+    console.log(date);
 
     return {
       id: date.id,
