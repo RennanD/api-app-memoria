@@ -3,12 +3,12 @@ import { format } from 'date-fns';
 
 import Contact from '../models/Contact';
 import Account from '../models/Account';
-import ImportantDate from '../models/ImportantDate';
 
 import AppError from '../../../errors/AppError';
 
 import CreateNotificationService from './CreateNotificationService';
 import CreateRemindersService from './CreateRemindersService';
+import CreateImportantDateService from './CreateImportantDateService';
 
 interface Request {
   owner_id: string;
@@ -19,10 +19,10 @@ class AcceptInviteService {
   public async execute({ owner_id, guest_id }: Request): Promise<Contact> {
     const accountRespository = getRepository(Account);
     const contactRespository = getRepository(Contact);
-    const dateRepository = getRepository(ImportantDate);
 
     const createNotification = new CreateNotificationService();
     const createReminders = new CreateRemindersService();
+    const createImportantDate = new CreateImportantDateService();
 
     const ownerAccount = await accountRespository.findOne({
       where: { user_id: owner_id },
@@ -68,24 +68,19 @@ class AcceptInviteService {
     await contactRespository.save(owner);
     await contactRespository.save(guest);
 
-    console.log(owner, guest);
-
-    const ownerDate = dateRepository.create({
-      user_id: ownerAccount.user.id,
-      contact_id: guestAccount.user.id,
+    const ownerDate = await createImportantDate.execute({
+      user_id: ownerAccount.user_id,
+      contact_id: guestAccount.user_id,
       date: guestAccount.user.birthday,
       description: `Aniversário de ${guestAccount.user.name}`,
     });
 
-    const guestDate = dateRepository.create({
+    const guestDate = await createImportantDate.execute({
       user_id: guestAccount.user.id,
       contact_id: ownerAccount.user.id,
       date: ownerAccount.user.birthday,
       description: `Aniversário de ${ownerAccount.user.name}`,
     });
-
-    await dateRepository.save(ownerDate);
-    await dateRepository.save(guestDate);
 
     const stringDateGuest = format(guestDate.date, "MM'-'dd");
     const getMonthGuest = guestDate.date.getMonth() + 1;
@@ -94,8 +89,6 @@ class AcceptInviteService {
     const stringDateOwner = format(ownerDate.date, "MM'-'dd");
     const getMonthOwner = ownerDate.date.getMonth() + 1;
     const getDayOwner = ownerDate.date.getDate();
-
-    // console.log(ownerDate, guestDate);
 
     const reminders = [
       {
