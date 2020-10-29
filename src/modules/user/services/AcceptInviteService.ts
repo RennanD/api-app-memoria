@@ -69,8 +69,8 @@ class AcceptInviteService {
     await contactRespository.save(guest);
 
     const ownerDate = await createImportantDate.execute({
-      user_id: ownerAccount.user_id,
-      contact_id: guestAccount.user_id,
+      user_id: ownerAccount.user.id,
+      contact_id: guestAccount.user.id,
       date: guestAccount.user.birthday,
       description: `Aniversário de ${guestAccount.user.name}`,
     });
