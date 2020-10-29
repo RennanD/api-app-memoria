@@ -7,6 +7,7 @@ import NotificationsToken from '../schemas/NotificationsToken';
 import AppError from '../../../errors/AppError';
 
 interface Request {
+  notification_title: string;
   important_date_id: string;
   description: string;
   user_id: string;
@@ -14,6 +15,7 @@ interface Request {
 
 class CreateNotificationService {
   public async execute({
+    notification_title,
     important_date_id,
     user_id,
     description,
@@ -37,7 +39,7 @@ class CreateNotificationService {
     const response = await axios.post('https://exp.host/--/api/v2/push/send', {
       to: pushUserToken.token,
       sound: 'default',
-      title: 'Data importante chegando, fique de olho :)',
+      title: notification_title,
       body: description,
       data: {
         route: 'notifications',

@@ -38,6 +38,8 @@ export async function getReminders(): Promise<void> {
           const createNotification = new CreateNotificationService();
 
           const notification = await createNotification.execute({
+            notification_title:
+              'Data importante chegando! :gift: :balloon: :green_heart:',
             description: reminder.notification_message,
             important_date_id: reminder.important_date_id,
             user_id: reminder.user_id,

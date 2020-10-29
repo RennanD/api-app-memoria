@@ -118,6 +118,7 @@ class AcceptInviteService {
     });
 
     await createNotification.execute({
+      notification_title: `Sua lista de contatos está maior. :satisfied: :heart:`,
       description: `${guestAccount.user.name} aceitou seu convite.`,
       important_date_id: guestDate.id,
       user_id: ownerAccount.user.id,
