@@ -37,7 +37,7 @@ class ShowOnlyDateService {
       throw new AppError('Resgistro não encontrado.');
     }
 
-    return {
+    const data = {
       id: date.id,
       date: date.date,
       create_at: date.created_at,
@@ -51,6 +51,10 @@ class ShowOnlyDateService {
           : `${process.env.APP_AVATAR}`,
       },
     };
+
+    console.log(data);
+
+    return data;
   }
 }
 

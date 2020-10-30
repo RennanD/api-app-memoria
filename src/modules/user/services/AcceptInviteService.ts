@@ -9,6 +9,7 @@ import AppError from '../../../errors/AppError';
 import CreateNotificationService from './CreateNotificationService';
 import CreateRemindersService from './CreateRemindersService';
 import CreateImportantDateService from './CreateImportantDateService';
+import CreateContactService from './CreateContactService';
 
 interface Request {
   owner_id: string;
@@ -23,6 +24,7 @@ class AcceptInviteService {
     const createNotification = new CreateNotificationService();
     const createReminders = new CreateRemindersService();
     const createImportantDate = new CreateImportantDateService();
+    const createContact = new CreateContactService();
 
     const ownerAccount = await accountRespository.findOne({
       where: { user_id: owner_id },
@@ -55,29 +57,26 @@ class AcceptInviteService {
       throw new AppError('Você já possui este contato na sua lista');
     }
 
-    const owner = contactRespository.create({
-      user_id: guestAccount.user.id,
-      owner_id,
+    const ownerContact = await createContact.execute({
+      owner_id: ownerAccount.user.id,
+      phone_number: guestAccount.phone_number,
     });
 
-    const guest = contactRespository.create({
-      user_id: owner_id,
+    const guestContact = await createContact.execute({
       owner_id: guestAccount.user.id,
+      phone_number: ownerAccount.phone_number,
     });
-
-    await contactRespository.save(owner);
-    await contactRespository.save(guest);
 
     const ownerDate = await createImportantDate.execute({
       user_id: ownerAccount.user.id,
-      contact_id: guestAccount.user.id,
+      contact_id: ownerContact.id,
       date: guestAccount.user.birthday,
       description: `Aniversário de ${guestAccount.user.name}`,
     });
 
     const guestDate = await createImportantDate.execute({
       user_id: guestAccount.user.id,
-      contact_id: ownerAccount.user.id,
+      contact_id: guestContact.id,
       date: ownerAccount.user.birthday,
       description: `Aniversário de ${ownerAccount.user.name}`,
     });
@@ -93,22 +92,22 @@ class AcceptInviteService {
     const reminders = [
       {
         user_id: ownerAccount.user.id,
-        important_date_id: guestDate.id,
+        important_date_id: ownerDate.id,
         title: `Aniversário de ${guestAccount.user.name}`,
-        date: `10 ${getDayGuest} ${getMonthGuest} *`,
-        reminderDate: guestDate.date,
-        parsed_date: stringDateGuest,
-        notification_message: `Hoje é aniversário de ${guestAccount.user.name}, lhe deseje feliz aniversário! :)`,
+        date: `10 ${getDayGuest} ${getMonthGuest} * *`,
+        reminderDate: ownerDate.date,
+        parsed_date: stringDateOwner,
+        notification_message: `Aniversário de ${guestAccount.user.name}, lhe deseje feliz aniversário! :)`,
         active: true,
       },
       {
-        user_id: ownerAccount.user.id,
-        important_date_id: ownerDate.id,
+        user_id: guestAccount.user.id,
+        important_date_id: guestDate.id,
         title: `Aniversário de ${ownerAccount.user.name}`,
-        date: `10 ${getDayOwner} ${getMonthOwner} *`,
-        reminderDate: ownerDate.date,
-        parsed_date: stringDateOwner,
-        notification_message: `Hoje é aniversário de ${ownerAccount.user.name}, lhe deseje feliz aniversário! :)`,
+        date: `10 ${getDayOwner} ${getMonthOwner} * *`,
+        reminderDate: guestDate.date,
+        parsed_date: stringDateGuest,
+        notification_message: `Aniversário de ${ownerAccount.user.name}, lhe deseje feliz aniversário! :)`,
         active: true,
       },
     ];
@@ -118,13 +117,13 @@ class AcceptInviteService {
     });
 
     await createNotification.execute({
-      notification_title: `Sua lista de contatos está maior. :satisfied: :heart:`,
+      notification_title: `Sua lista de contatos está maior.`,
       description: `${guestAccount.user.name} aceitou seu convite.`,
       important_date_id: guestDate.id,
       user_id: ownerAccount.user.id,
     });
 
-    return owner;
+    return ownerContact;
   }
 }
 
