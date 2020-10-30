@@ -23,28 +23,23 @@ notificationsRouter.get('/', async (request, response) => {
   return response.json(notifications);
 });
 
-notificationsRouter.patch(
-  '/notifications/:notification_id',
-  async (request, response) => {
-    const { notification_id } = request.params;
+notificationsRouter.patch('/:notification_id', async (request, response) => {
+  const { notification_id } = request.params;
 
-    const notification = await Notification.findById(notification_id);
+  const notification = await Notification.findById(notification_id);
 
-    if (!notification) {
-      return response
-        .status(400)
-        .json({ message: 'Notificação não encontrada', statusCode: '400' });
-    }
+  if (!notification) {
+    return response
+      .status(400)
+      .json({ message: 'Notificação não encontrada', statusCode: '400' });
+  }
 
-    notification.read = true;
+  notification.read = true;
 
-    await notification.save();
+  await notification.save();
 
-    console.log(notification);
-
-    return response.json(notification);
-  },
-);
+  return response.json(notification);
+});
 
 // Token
 
