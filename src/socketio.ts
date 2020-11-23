@@ -12,7 +12,7 @@ export async function getReminders(): Promise<void> {
 
   const users = await usersRepository.find();
 
-  let reminders = [];
+  let reminders: any[] = [];
 
   users.forEach(async user => {
     reminders = await Reminder.find({
@@ -21,22 +21,17 @@ export async function getReminders(): Promise<void> {
     });
 
     reminders.forEach(reminder => {
-      console.log(reminder);
       cron.schedule(
         `${reminder.date}`,
         async () => {
-          console.log('entrou aqui');
-
           const createNotification = new CreateNotificationService();
 
-          const notification = await createNotification.execute({
+          await createNotification.execute({
             notification_title: 'Data importante chegando!',
             description: reminder.notification_message,
             important_date_id: reminder.important_date_id,
             user_id: reminder.user_id,
           });
-
-          console.log(notification);
         },
         {
           scheduled: reminder.active,
@@ -45,4 +40,6 @@ export async function getReminders(): Promise<void> {
       );
     });
   });
+
+  console.log(reminders.length);
 }
