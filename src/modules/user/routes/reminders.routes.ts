@@ -28,15 +28,16 @@ remindersRouter.post('/', async (request, response) => {
   const data = request.body;
   const user_id = request.user.id;
 
-  const reminders = data.map((reminderObject: any) => ({
-    ...reminderObject,
-    user_id,
-  }));
+  // const reminders = data.map((reminderObject: any) => ({
+  //   ...reminderObject,
+  //   user_id,
+  // }));
 
   const createReminder = new CreateRemindersService();
 
   const reminder = await createReminder.execute({
-    reminders,
+    user_id,
+    ...data,
   });
 
   return response.json(reminder);
