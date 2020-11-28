@@ -42,4 +42,12 @@ preferencesRouter.post('/person/:id', async (request, response) => {
   return response.json(preferences);
 });
 
+preferencesRouter.delete(
+  '/person/:category/:subcatecory',
+  async (request, response) => {
+    const { params } = request;
+    console.log(params);
+  },
+);
+
 export default preferencesRouter;
