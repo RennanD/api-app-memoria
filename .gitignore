@@ -8,3 +8,4 @@ tmp/*
 !tmp/messages
 tmp/messages/*
 !tmp/messages/.gitkeep
+credentials.txt
