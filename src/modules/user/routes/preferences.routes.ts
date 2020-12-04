@@ -3,6 +3,7 @@ import { Router } from 'express';
 import CreatePreferencesService from '../services/CreatePreferencesService';
 import ListAllPreferencesService from '../services/ListAllPreferencesService';
 import ListPersonPreferencesService from '../services/ListPersonPreferencesService';
+import RemovePreferenceService from '../services/RemovePreferenceService';
 
 import ensureAuthenticated from '../../../middlewares/ensureAuthenticate';
 
@@ -46,7 +47,14 @@ preferencesRouter.delete(
   '/person/:category/:subcatecory',
   async (request, response) => {
     const { params } = request;
-    console.log(params);
+    const deletePreference = new RemovePreferenceService();
+
+    await deletePreference.execute({
+      category: params.category,
+      subcategory: params.subcatecory,
+    });
+
+    return response.send();
   },
 );
 

@@ -4,6 +4,7 @@ import CreatePreferenceServices from '../services/CreatePreferenceService';
 import CreateSubcategoriesService from '../services/CreateSubcategoriesService';
 
 import controllUserAccess from '../../../middlewares/controllUserAccess';
+import RemoveAdminPreferenceService from '../services/RemoveAdminPreferences';
 
 const preferencesRouter = Router();
 
@@ -34,6 +35,21 @@ preferencesRouter.post(
     });
 
     return response.json(preference);
+  },
+);
+
+preferencesRouter.delete(
+  '/:category/:subcatecory',
+  async (request, response) => {
+    const { params } = request;
+    const deletePreference = new RemoveAdminPreferenceService();
+
+    await deletePreference.execute({
+      category: params.category,
+      subcategory: params.subcatecory,
+    });
+
+    return response.send();
   },
 );
 
