@@ -9,6 +9,7 @@ import EditImportantDateService from '../services/EditImportantDateService';
 import DeleteImportantDateService from '../services/DeleteImportantDateService';
 
 import ensureAuthenticated from '../../../middlewares/ensureAuthenticate';
+import Dates from '../../admin/schemas/Dates';
 
 const datesRouter = Router();
 
@@ -21,6 +22,16 @@ datesRouter.get('/:date_id', async (request, response) => {
 
   const date = await showDate.execute({
     date_id,
+  });
+
+  return response.json(date);
+});
+
+datesRouter.post('/sugestions', async (request, response) => {
+  const { title } = request.body;
+
+  const date = await Dates.create({
+    title,
   });
 
   return response.json(date);
