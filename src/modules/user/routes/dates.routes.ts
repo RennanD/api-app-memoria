@@ -15,6 +15,12 @@ const datesRouter = Router();
 
 datesRouter.use(ensureAuthenticated);
 
+datesRouter.get('/sugestions/description', async (request, response) => {
+  const dates = await Dates.find();
+
+  return response.json(dates);
+});
+
 datesRouter.get('/:date_id', async (request, response) => {
   const showDate = new ShowOnlyDateService();
 
@@ -22,16 +28,6 @@ datesRouter.get('/:date_id', async (request, response) => {
 
   const date = await showDate.execute({
     date_id,
-  });
-
-  return response.json(date);
-});
-
-datesRouter.post('/sugestions', async (request, response) => {
-  const { title } = request.body;
-
-  const date = await Dates.create({
-    title,
   });
 
   return response.json(date);
